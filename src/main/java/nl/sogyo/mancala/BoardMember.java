@@ -109,19 +109,32 @@ public abstract class BoardMember {
 
     
     void accessGame(){
-        int TotalStonesOnPlayerField = 0;
+        int TotalStonesOnPlayerInPits = 0;
         BoardMember loopUntilTheKalaha = findFirstPitOfActivePlayer();
         //BoardMember loopUntilTheKalaha = TheFirstPitOfActivePlayer;
         while (loopUntilTheKalaha.getClass().getSimpleName().equalsIgnoreCase("Kalaha") == false){
-            TotalStonesOnPlayerField += loopUntilTheKalaha.getTotalStones();
+            TotalStonesOnPlayerInPits += loopUntilTheKalaha.getTotalStones();
             loopUntilTheKalaha = loopUntilTheKalaha.getNeighbour();
         }
         
-        if (TotalStonesOnPlayerField == 0){
-        //end game sequence
-        System.out.println("YOU HAVE FINISHED THE GAME");  //NEEDS TO IMPLEMENT SWEEP
-        
+        if (TotalStonesOnPlayerInPits == 0){
+            sweepRemainingStonesToKalaha(loopUntilTheKalaha);
+            System.out.println("YOU HAVE FINISHED THE GAME");  //NEEDS TO IMPLEMENT SWEEP
+            //System.exit.(0);
         }
 
     }
+    
+    void sweepRemainingStonesToKalaha(BoardMember theActivePlayersKalaha){
+        int TotalStonesOnPlayerInPits = 0;
+        BoardMember loopUntilTheKalaha = theActivePlayersKalaha.getNeighbour();
+        while (loopUntilTheKalaha.getClass().getSimpleName().equalsIgnoreCase("Kalaha") == false){
+            TotalStonesOnPlayerInPits += loopUntilTheKalaha.getTotalStones();
+            loopUntilTheKalaha.emptyStones();
+            loopUntilTheKalaha = loopUntilTheKalaha.getNeighbour();
+        }
+        loopUntilTheKalaha.receiveStones(TotalStonesOnPlayerInPits);
+        
+    }
+    
 }

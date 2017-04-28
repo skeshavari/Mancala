@@ -187,16 +187,6 @@ public class MancalaTest {
         Assert.assertEquals(playerTwoturn,true);
     }
     
-    /*@Test
-    public void testIfSweepAddsStonesToTheRightKalaha() {
-        printAllStones();
-        pit4.pickAndPlayPit();
-        pit10.pickAndPlayPit();
-        boolean playerTwoturn = pit10.getOwner().getIsActiveTurn();
-        
-        Assert.assertEquals(playerTwoturn,true);
-    } */
-    
     @Test
     public void testIfEndGameSequenceIsInitiated() {
         printAllStones();
@@ -208,10 +198,15 @@ public class MancalaTest {
         pit6.pickAndPlayPit();
         printAllStones();
         pit8.pickAndPlayPit();
-        //pit10.pickAndPlayPit();
-        boolean playerTwoturn = pit10.getOwner().getIsActiveTurn();
+        printAllStones();
         
-        Assert.assertEquals(playerTwoturn,true);
+        Assert.assertEquals(0, pit8.getTotalStones());
+        Assert.assertEquals(0, pit9.getTotalStones());
+        Assert.assertEquals(0, pit10.getTotalStones());
+        Assert.assertEquals(0, pit11.getTotalStones());
+        Assert.assertEquals(0, pit12.getTotalStones());
+        Assert.assertEquals(0, pit13.getTotalStones());
+        
     }
     
     
