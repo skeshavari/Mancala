@@ -56,17 +56,18 @@ public abstract class BoardMember {
     }
     
     /** all game play methods **/
-    void takeAndPassStones(int stones) {
-        if (stones == 1) {
+    void takeAndPassStones(int stonesToPassOn) {
+        if (stonesToPassOn == 1) {
             totalStones++; //ends move
-            if (totalStones == 1) {
+            if (totalStones == 1 && getOwner().getIsActiveTurn() == true) {
                 BoardMember foundTheActiveKalaha = getActiveKalaha();
                 captureMe(foundTheActiveKalaha);
                 getOpposingBoardMember().captureMe(foundTheActiveKalaha);
             }
+            owner.switchTurnToOpponent();
         } else {
             totalStones++;
-            neighbour.takeAndPassStones((stones-1));
+            neighbour.takeAndPassStones((stonesToPassOn-1));
         }
     }
     
@@ -75,9 +76,11 @@ public abstract class BoardMember {
     }
     
     void captureMe(BoardMember activeKalaha){
+        
         int stonesToGiveAway = totalStones;
         activeKalaha.receiveStones(stonesToGiveAway);
         emptyStones();
+        
     }
     
     void receiveStones(int stonesReceived){

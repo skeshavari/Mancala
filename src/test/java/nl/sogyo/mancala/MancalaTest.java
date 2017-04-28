@@ -142,10 +142,49 @@ public class MancalaTest {
     }
     
     @Test
+    public void testIfPlayerTurnChangesAfterPlaying() {
+        pit1.pickAndPlayPit();
+        boolean playerOneTurn = pit1.getOwner().getIsActiveTurn();
+        boolean playerTwoTurn = pit8.getOwner().getIsActiveTurn();
+        Assert.assertEquals(playerOneTurn, false);
+        Assert.assertEquals(playerTwoTurn, true);
+    }
+    
+    @Test
+    public void testIfPlayerWithActiveTurnCANNOTChooseOpponentField() {
+        pit8.pickAndPlayPit();
+        boolean playerOneTurn = pit1.getOwner().getIsActiveTurn();
+        boolean playerTwoTurn = pit8.getOwner().getIsActiveTurn();
+        Assert.assertEquals(pit8.getTotalStones(), 4);
+        Assert.assertEquals(pit12.getTotalStones(), 4);
+        Assert.assertEquals(playerOneTurn, true);
+        Assert.assertEquals(playerTwoTurn, false);
+    }
+    
+    @Test
     public void testIfKalahaTwoReceivesNoStonesWhenPlayerOneIsActive() {
-        int stonesHeldByKalahaTwoShouldBe = 0;
-        pit6.receiveStones(10);
+        int AfterTheseSessionsKalahaTwoShouldHave = 4;
+        pit2.pickAndPlayPit();
+        pit13.pickAndPlayPit();
+        pit3.pickAndPlayPit();
+        pit12.pickAndPlayPit();
+        pit4.pickAndPlayPit();
+        pit11.pickAndPlayPit();
+        pit5.pickAndPlayPit();
+        pit10.pickAndPlayPit();
         pit6.pickAndPlayPit();
-        Assert.assertEquals(stonesHeldByKalahaTwoShouldBe, kalaha2.getTotalStones());
+        printAllStones();
+        Assert.assertEquals(AfterTheseSessionsKalahaTwoShouldHave,kalaha2.getTotalStones());
+    }
+    
+    void printAllStones(){
+        System.out.println("             Kalaha2 stones " + kalaha2.getTotalStones());
+        System.out.println("pit1 stones    " + pit1.getTotalStones() + " || " + pit13.getTotalStones() + "  pit13 stones");
+        System.out.println("pit2 stones    " + pit2.getTotalStones() + " || " + pit12.getTotalStones() + "  pit12 stones");
+        System.out.println("pit3 stones    " + pit3.getTotalStones() + " || " + pit11.getTotalStones() + "  pit11 stones");
+        System.out.println("pit4 stones    " + pit4.getTotalStones() + " || " + pit10.getTotalStones() + "  pit10 stones");
+        System.out.println("pit5 stones    " + pit5.getTotalStones() + " || " + pit9.getTotalStones() + "  pit9 stones");
+        System.out.println("pit6 stones    " + pit6.getTotalStones() + " || " + pit8.getTotalStones() + "  pit8 stones");
+        System.out.println("   Kalaha1 stones " + kalaha1.getTotalStones());
     }
 }
