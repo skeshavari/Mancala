@@ -3,7 +3,6 @@ package nl.sogyo.mancala;
 
 public class Pit extends BoardMember {
     
-    
     public Pit(){
         super();
     }
@@ -18,5 +17,10 @@ public class Pit extends BoardMember {
         emptyStones();
         getNeighbour().takeAndPassStones(stonesToPassOn);
     }
+/*
+    @Override
+    void receiveStones(int stonesReceived){
+        
+    } */
     
 }
