@@ -55,16 +55,36 @@ public abstract class BoardMember {
         return isThisAKalaha;
     }
     
+        
+    public BoardMember findFirstPitOfActivePlayer(){
+        BoardMember searchFromThisBoardMember = this;
+        boolean inactiveKalahaReached = false;
+        String BoardMemberType;
+        while (inactiveKalahaReached == false){
+            BoardMemberType = searchFromThisBoardMember.getClass().getSimpleName();
+            
+            if (BoardMemberType.equalsIgnoreCase("Kalaha") == true && searchFromThisBoardMember.getOwner().getIsActiveTurn() == false) {
+                inactiveKalahaReached = true;
+            } else {
+                 searchFromThisBoardMember = searchFromThisBoardMember.getNeighbour();
+            }
+        }
+        return searchFromThisBoardMember.getNeighbour();
+    }
+    
     /** all game play methods **/
     void takeAndPassStones(int stonesToPassOn) {
         if (stonesToPassOn == 1) {
-            totalStones++; //ends move
+            totalStones++;
             if (totalStones == 1 && getOwner().getIsActiveTurn() == true) {
                 BoardMember foundTheActiveKalaha = getActiveKalaha();
                 captureMe(foundTheActiveKalaha);
                 getOpposingBoardMember().captureMe(foundTheActiveKalaha);
             }
-            owner.switchTurnToOpponent();
+            owner.switchIsActiveTurn();
+            owner.getOpponent().switchIsActiveTurn();
+            accessGame();
+
         } else {
             totalStones++;
             neighbour.takeAndPassStones((stonesToPassOn-1));
@@ -86,5 +106,22 @@ public abstract class BoardMember {
     void receiveStones(int stonesReceived){
         totalStones += stonesReceived;
     }
+
     
+    void accessGame(){
+        int TotalStonesOnPlayerField = 0;
+        BoardMember loopUntilTheKalaha = findFirstPitOfActivePlayer();
+        //BoardMember loopUntilTheKalaha = TheFirstPitOfActivePlayer;
+        while (loopUntilTheKalaha.getClass().getSimpleName().equalsIgnoreCase("Kalaha") == false){
+            TotalStonesOnPlayerField += loopUntilTheKalaha.getTotalStones();
+            loopUntilTheKalaha = loopUntilTheKalaha.getNeighbour();
+        }
+        
+        if (TotalStonesOnPlayerField == 0){
+        //end game sequence
+        System.out.println("YOU HAVE FINISHED THE GAME");  //NEEDS TO IMPLEMENT SWEEP
+        
+        }
+
+    }
 }

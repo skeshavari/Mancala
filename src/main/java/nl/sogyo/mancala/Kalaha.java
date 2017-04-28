@@ -19,12 +19,17 @@ public class Kalaha extends BoardMember {
     
     void takeAndPassStones(int stonesToPassOn) {
         if (super.getOwner().getIsActiveTurn() == true) {
-            super.receiveStones(1);
-            super.getNeighbour().takeAndPassStones((stonesToPassOn-1));
+            if (stonesToPassOn == 1){
+                super.receiveStones(1);
+            } else {
+                super.receiveStones(1);
+                super.getNeighbour().takeAndPassStones((stonesToPassOn-1));
+            }
         } else {
             super.getNeighbour().takeAndPassStones(stonesToPassOn);
         }
     }
+
     
     @Override
     public void captureMe(BoardMember activeKalaha){

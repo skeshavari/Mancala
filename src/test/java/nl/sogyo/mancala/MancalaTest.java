@@ -173,9 +173,47 @@ public class MancalaTest {
         pit5.pickAndPlayPit();
         pit10.pickAndPlayPit();
         pit6.pickAndPlayPit();
-        printAllStones();
+       // printAllStones();
         Assert.assertEquals(AfterTheseSessionsKalahaTwoShouldHave,kalaha2.getTotalStones());
     }
+    
+    @Test
+    public void testIfYouCanPlayAgainAfterFinishingInKalaha() {
+       // printAllStones();
+        pit4.pickAndPlayPit();
+        pit10.pickAndPlayPit();
+        boolean playerTwoturn = pit10.getOwner().getIsActiveTurn();
+        
+        Assert.assertEquals(playerTwoturn,true);
+    }
+    
+    /*@Test
+    public void testIfSweepAddsStonesToTheRightKalaha() {
+        printAllStones();
+        pit4.pickAndPlayPit();
+        pit10.pickAndPlayPit();
+        boolean playerTwoturn = pit10.getOwner().getIsActiveTurn();
+        
+        Assert.assertEquals(playerTwoturn,true);
+    } */
+    
+    @Test
+    public void testIfEndGameSequenceIsInitiated() {
+        printAllStones();
+        pit1.subtractStones(4);
+        pit2.subtractStones(4);
+        pit3.subtractStones(4);
+        pit4.subtractStones(4);
+        pit5.subtractStones(4);
+        pit6.pickAndPlayPit();
+        printAllStones();
+        pit8.pickAndPlayPit();
+        //pit10.pickAndPlayPit();
+        boolean playerTwoturn = pit10.getOwner().getIsActiveTurn();
+        
+        Assert.assertEquals(playerTwoturn,true);
+    }
+    
     
     void printAllStones(){
         System.out.println("             Kalaha2 stones " + kalaha2.getTotalStones());

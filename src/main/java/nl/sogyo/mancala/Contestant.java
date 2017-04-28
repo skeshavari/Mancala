@@ -1,15 +1,18 @@
 package nl.sogyo.mancala;
 
 public class Contestant {
+    private String playerName;
     private Contestant opponent;
     private boolean isActiveTurn;
     
     public Contestant(){
+        playerName = "Player 1";
         isActiveTurn = true;
         opponent = new Contestant(this);
     }
     
     public Contestant(Contestant firstOpponent){
+        playerName = "Player 2";
         isActiveTurn = false;
         opponent = firstOpponent;
     }
@@ -22,8 +25,9 @@ public class Contestant {
         return isActiveTurn;
     }
     
-    public void switchTurnToOpponent(){
+    public void switchIsActiveTurn(){
         isActiveTurn = !isActiveTurn;
-        getOpponent().isActiveTurn = !getOpponent().isActiveTurn;
+
+
     }
 }
