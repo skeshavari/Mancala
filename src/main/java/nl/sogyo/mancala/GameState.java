@@ -1,4 +1,5 @@
 package nl.sogyo.mancala;
+import java.awt.Color;
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -6,7 +7,7 @@ public class GameState {
     JFrame frame;
     JPanel panel;
     JTextArea jTextArea = new JTextArea();
-    JButton [] buttons = new JButton[19];
+    JButton [] buttons = new JButton[14];
     int frameWidth = 700;
     int frameHeight = 700;
     Pit StartGameBoard = new Pit();
@@ -43,14 +44,21 @@ public class GameState {
             
             switch (numberOfBoardMembers) {
                 case 6:
-                    name = new JLabel(loopThroughBoard.getClass().getSimpleName() + " Player " + ((numberOfBoardMembers-6)+1));
+                    name = new JLabel(loopThroughBoard.getClass().getSimpleName() + " Player 1");
                     break;
                 case 13:
-                    name = new JLabel(loopThroughBoard.getClass().getSimpleName() + " Player " + ((numberOfBoardMembers-12)+1));
+                    name = new JLabel(loopThroughBoard.getClass().getSimpleName() + " Player 2");
                     break;
                 default:
                     name = new JLabel(loopThroughBoard.getClass().getSimpleName() + " " + (numberOfBoardMembers+1));
                     break;
+            }
+            
+            //reCollor active Players buttons
+            if (loopThroughBoard.getOwner().getIsActiveTurn() == false){
+                buttons[numberOfBoardMembers].setBackground(Color.GRAY);
+            } else if (loopThroughBoard.getTotalStones() == 0){
+                buttons[numberOfBoardMembers].setBackground(Color.LIGHT_GRAY);
             }
             
             name.setBounds(labelXPosition, buttonYPosition, 100, 50);
@@ -76,8 +84,8 @@ public class GameState {
     class ButtonClickListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event) {
-        JButton btn = (JButton) event.getSource();
-        BoardMember buttonsLinkedTo = (BoardMember) btn.getClientProperty("boardMember");
+        JButton pitSelected = (JButton) event.getSource();
+        BoardMember buttonsLinkedTo = (BoardMember) pitSelected.getClientProperty("boardMember");
         buttonsLinkedTo.pickAndPlayPit();
         CreateAndUpdateAllbuttons();
         frame.repaint();

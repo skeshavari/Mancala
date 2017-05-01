@@ -56,25 +56,29 @@ public class MancalaTest {
         pit1.pickAndPlayPit();
         int result = pit2.getTotalStones();
         int expResult = 5;
+        
         Assert.assertEquals(expResult, result);
     }
     
     @Test
-    public void testIfLastFirstKalahaIsEmpty() {
+    public void testIfFirstKalahaIsEmpty() {
         pit1.pickAndPlayPit();
         int stonesInKalahaShouldBeOne = kalaha1.getTotalStones();
+        
         Assert.assertEquals(0, stonesInKalahaShouldBeOne);
     }
      
     @Test
     public void testIfPitKnowsItsOwner() {
         Contestant playerOfFirstPit = pit1.getOwner();
+        
         Assert.assertNotNull(playerOfFirstPit);
     }    
     
     @Test
     public void testIfPitOwnerKnowsItsOpponent() {
         Contestant opponentOfFirstOneOwner = pit1.getOwner().getOpponent();
+        
         Assert.assertNotNull(opponentOfFirstOneOwner);
     }
     
@@ -82,6 +86,7 @@ public class MancalaTest {
     public void testIfSecondKalahaIsEmpty() {
         pit1.pickAndPlayPit();
         int stonesInKalahaShouldBeNone = kalaha2.getTotalStones();
+        
         Assert.assertEquals(0, stonesInKalahaShouldBeNone);
     }
     
@@ -130,6 +135,7 @@ public class MancalaTest {
     public void testIfPitFourCanCaptureOpposingBoardMember() {
         pit5.emptyStones();
         pit1.pickAndPlayPit();
+        
         Assert.assertEquals(0, pit5.getOpposingBoardMember().getTotalStones());
     }
     
@@ -138,6 +144,7 @@ public class MancalaTest {
         int stonesReceivedByKalahaOneShouldBe = 5;
         pit5.emptyStones();
         pit1.pickAndPlayPit();
+        
         Assert.assertEquals(stonesReceivedByKalahaOneShouldBe, kalaha1.getTotalStones());
     }
     
@@ -146,6 +153,7 @@ public class MancalaTest {
         pit1.pickAndPlayPit();
         boolean playerOneTurn = pit1.getOwner().getIsActiveTurn();
         boolean playerTwoTurn = pit8.getOwner().getIsActiveTurn();
+        
         Assert.assertEquals(playerOneTurn, false);
         Assert.assertEquals(playerTwoTurn, true);
     }
@@ -155,6 +163,7 @@ public class MancalaTest {
         pit8.pickAndPlayPit();
         boolean playerOneTurn = pit1.getOwner().getIsActiveTurn();
         boolean playerTwoTurn = pit8.getOwner().getIsActiveTurn();
+        
         Assert.assertEquals(4, pit8.getTotalStones());
         Assert.assertEquals(4, pit12.getTotalStones());
         Assert.assertEquals(playerOneTurn, true);
@@ -173,6 +182,7 @@ public class MancalaTest {
         pit5.pickAndPlayPit();
         pit10.pickAndPlayPit();
         pit6.pickAndPlayPit();
+        
         Assert.assertEquals(AfterTheseSessionsKalahaTwoShouldHave,kalaha2.getTotalStones());
     }
     
@@ -184,9 +194,10 @@ public class MancalaTest {
         
         Assert.assertEquals(playerTwoturn,true);
     }
+
     
     @Test
-    public void testIfEndGameSequenceIsInitiated() {
+    public void testIfSweepFunctionClearsAllPits() {
         printAllStones();
         pit1.subtractStones(4);
         pit2.subtractStones(4);
@@ -203,7 +214,22 @@ public class MancalaTest {
         Assert.assertEquals(0, pit11.getTotalStones());
         Assert.assertEquals(0, pit12.getTotalStones());
         Assert.assertEquals(0, pit13.getTotalStones());
+    }
+    
+    @Test
+    public void testIfEndGameSequenceIsInitiatedWithStonesInRightKalaha() {
+        printAllStones();
+        pit1.subtractStones(4);
+        pit2.subtractStones(4);
+        pit3.subtractStones(4);
+        pit4.subtractStones(4);
+        pit5.subtractStones(4);
+        pit6.pickAndPlayPit();
+        pit8.pickAndPlayPit();
+        printAllStones();
         
+        Assert.assertEquals(1, kalaha1.getTotalStones());
+        Assert.assertEquals(27, kalaha2.getTotalStones());
     }
     
     @Test
@@ -218,12 +244,8 @@ public class MancalaTest {
         pit6.pickAndPlayPit();
         printAllStones();
         
-        Assert.assertEquals(0, pit8.getTotalStones());
-        Assert.assertEquals(0, pit9.getTotalStones());
-        Assert.assertEquals(0, pit10.getTotalStones());
-        Assert.assertEquals(0, pit11.getTotalStones());
-        Assert.assertEquals(0, pit12.getTotalStones());
-        Assert.assertEquals(0, pit13.getTotalStones());
+        Assert.assertEquals(1, kalaha1.getTotalStones());
+        Assert.assertEquals(24, kalaha2.getTotalStones());
         
     }
     
