@@ -21,6 +21,7 @@ public class Kalaha extends BoardMember {
         if (super.getOwner().getIsActiveTurn() == true) {
             if (stonesToPassOn == 1){
                 super.receiveStones(1);
+                super.accessGame();
             } else {
                 super.receiveStones(1);
                 super.getNeighbour().takeAndPassStones((stonesToPassOn-1));

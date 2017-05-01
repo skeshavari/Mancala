@@ -155,8 +155,8 @@ public class MancalaTest {
         pit8.pickAndPlayPit();
         boolean playerOneTurn = pit1.getOwner().getIsActiveTurn();
         boolean playerTwoTurn = pit8.getOwner().getIsActiveTurn();
-        Assert.assertEquals(pit8.getTotalStones(), 4);
-        Assert.assertEquals(pit12.getTotalStones(), 4);
+        Assert.assertEquals(4, pit8.getTotalStones());
+        Assert.assertEquals(4, pit12.getTotalStones());
         Assert.assertEquals(playerOneTurn, true);
         Assert.assertEquals(playerTwoTurn, false);
     }
@@ -173,13 +173,11 @@ public class MancalaTest {
         pit5.pickAndPlayPit();
         pit10.pickAndPlayPit();
         pit6.pickAndPlayPit();
-       // printAllStones();
         Assert.assertEquals(AfterTheseSessionsKalahaTwoShouldHave,kalaha2.getTotalStones());
     }
     
     @Test
     public void testIfYouCanPlayAgainAfterFinishingInKalaha() {
-       // printAllStones();
         pit4.pickAndPlayPit();
         pit10.pickAndPlayPit();
         boolean playerTwoturn = pit10.getOwner().getIsActiveTurn();
@@ -196,8 +194,28 @@ public class MancalaTest {
         pit4.subtractStones(4);
         pit5.subtractStones(4);
         pit6.pickAndPlayPit();
-        printAllStones();
         pit8.pickAndPlayPit();
+        printAllStones();
+        
+        Assert.assertEquals(0, pit8.getTotalStones());
+        Assert.assertEquals(0, pit9.getTotalStones());
+        Assert.assertEquals(0, pit10.getTotalStones());
+        Assert.assertEquals(0, pit11.getTotalStones());
+        Assert.assertEquals(0, pit12.getTotalStones());
+        Assert.assertEquals(0, pit13.getTotalStones());
+        
+    }
+    
+    @Test
+    public void testIfEndGameSequenceIsInitiatedWhenEndingInOwnKalaha() {
+        printAllStones();
+        pit1.subtractStones(4);
+        pit2.subtractStones(4);
+        pit3.subtractStones(4);
+        pit4.subtractStones(4);
+        pit5.subtractStones(4);
+        pit6.subtractStones(3);
+        pit6.pickAndPlayPit();
         printAllStones();
         
         Assert.assertEquals(0, pit8.getTotalStones());

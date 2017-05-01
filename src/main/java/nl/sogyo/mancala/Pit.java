@@ -5,6 +5,7 @@ public class Pit extends BoardMember {
     
     public Pit(){
         super();
+        
     }
     
     public Pit(BoardMember firstPit, int totalInstancesCreated, Contestant firstPlayer){
@@ -34,7 +35,7 @@ public class Pit extends BoardMember {
     
         
     void subtractStones(int stonesReceived){
-        super.receiveStones(-4);
+        super.receiveStones(-stonesReceived);
     }
     
 }

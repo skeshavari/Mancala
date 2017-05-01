@@ -29,7 +29,6 @@ public abstract class BoardMember {
         }
     }
     
-
     /** Getters **/
     public int getTotalStones(){
         return totalStones;
@@ -119,8 +118,7 @@ public abstract class BoardMember {
         
         if (TotalStonesOnPlayerInPits == 0){
             sweepRemainingStonesToKalaha(loopUntilTheKalaha);
-            System.out.println("YOU HAVE FINISHED THE GAME");  //NEEDS TO IMPLEMENT SWEEP
-            //System.exit.(0);
+            System.out.println("THE GAME IS OVER");
         }
 
     }
@@ -133,8 +131,30 @@ public abstract class BoardMember {
             loopUntilTheKalaha.emptyStones();
             loopUntilTheKalaha = loopUntilTheKalaha.getNeighbour();
         }
-        loopUntilTheKalaha.receiveStones(TotalStonesOnPlayerInPits);
         
+        loopUntilTheKalaha.receiveStones(TotalStonesOnPlayerInPits);
+        decideVictoriousPlayer(loopUntilTheKalaha);
     }
     
+    void decideVictoriousPlayer(BoardMember kalahaOfInactivePlayer){
+        int totalStonesOfInactivePlayer = kalahaOfInactivePlayer.getTotalStones();
+        BoardMember findingActivePlayersKalaha = kalahaOfInactivePlayer.getActiveKalaha();
+        int totalStonesOfActivePlayer = findingActivePlayersKalaha.getTotalStones();
+        System.out.println(); //for new line 
+        
+        String playerName;
+        
+        if (totalStonesOfInactivePlayer > totalStonesOfActivePlayer) {
+            playerName = kalahaOfInactivePlayer.getOwner().getPlayerName();
+            System.out.println(playerName + " has won the game with " + totalStonesOfInactivePlayer + " stones.");
+        } else if (totalStonesOfInactivePlayer < totalStonesOfActivePlayer){
+            playerName = findingActivePlayersKalaha.getOwner().getPlayerName();
+            System.out.println(playerName + " has won the game with " + totalStonesOfActivePlayer + " stones.");
+        } else {
+            System.out.println("We have a draw! No winners or losers..");
+        }
+    }
+    
+    void pickAndPlayPit(){
+    }
 }

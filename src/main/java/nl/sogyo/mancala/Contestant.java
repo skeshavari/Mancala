@@ -17,6 +17,10 @@ public class Contestant {
         opponent = firstOpponent;
     }
 
+    public String getPlayerName(){
+        return playerName;
+    }
+    
     public Contestant getOpponent(){
         return opponent;
     }
@@ -27,7 +31,5 @@ public class Contestant {
     
     public void switchIsActiveTurn(){
         isActiveTurn = !isActiveTurn;
-
-
     }
 }
