@@ -103,7 +103,7 @@ public class GameState {
         public void actionPerformed(ActionEvent event) {
         JButton pitSelected = (JButton) event.getSource();
         BoardMember buttonsLinkedTo = (BoardMember) pitSelected.getClientProperty("boardMember");
-        buttonsLinkedTo.pickAndPlayPit();
+        buttonsLinkedTo.pickThisBoardMember();
         CreateAndUpdateAllbuttons();
         frame.repaint();
         }

@@ -11,18 +11,23 @@ public class Pit extends BoardMember {
         super(firstPit, totalInstancesCreated, firstPlayer);
     }
     
-    void pickAndPlayPit(){
-        if (super.getOwner().getIsActiveTurn() == true){
-            if (super.getTotalStones() == 0) {
-                System.out.println("There are no stones in here. Pick again..");
-            } else {
-                int stonesToPassOn=getTotalStones();
-                emptyStones();
-                getNeighbour().takeAndPassStones(stonesToPassOn);
-                accessGame();
-            }
+    @Override
+    void pickThisBoardMember(){
+        if (super.ownerIsActive() == true){
+            playThisPit();
         } else {
             System.out.println("You cannot choose the opponents side..");
+        }
+    }
+    
+    void playThisPit(){
+        if (super.getTotalStones() == 0) {
+            System.out.println("There are no stones in here. Pick again..");
+        } else {
+            int stonesToPassOn=getTotalStones();
+            emptyStones();
+            getNeighbour().takeAndPassStones(stonesToPassOn);
+            accessGame();
         }
     }
     

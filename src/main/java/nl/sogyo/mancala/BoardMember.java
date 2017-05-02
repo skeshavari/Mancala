@@ -6,7 +6,6 @@ public abstract class BoardMember {
     private BoardMember neighbour;
     private Contestant owner;
     
-    
     public BoardMember(){
         BoardMember firstPit = this;
         Contestant firstPlayer = new Contestant();
@@ -46,11 +45,9 @@ public abstract class BoardMember {
         return myNeighboursOpposingBoardMember.getNeighbour();
     }
     
-     
     private String getMyClass(BoardMember toCheckForType){
         return toCheckForType.getClass().getSimpleName();
     }
-    
         
     public boolean ownerIsActive(){
         return getOwner().getIsActiveTurn() == true;
@@ -97,13 +94,9 @@ public abstract class BoardMember {
     }
     
     private boolean wasEmpty(){
-        if (totalStones == 1) {
-        return true;
-        }
-        return false;
+        return totalStones == 1;
     }
 
-    
     void captureMe(BoardMember activeKalaha){
         int stonesToGiveAway = totalStones;
         activeKalaha.receiveStones(stonesToGiveAway);
@@ -118,18 +111,6 @@ public abstract class BoardMember {
     }
     
     void accessGame(){
-      /*  int TotalStonesOfPlayerInPits = 0;
-        BoardMember firstPitOfActivePlayer = findFirstPitOfActivePlayer();
-        while (getMyClass(firstPitOfActivePlayer).equals("Kalaha") == false){
-            TotalStonesOfPlayerInPits += firstPitOfActivePlayer.getTotalStones();
-            firstPitOfActivePlayer = firstPitOfActivePlayer.getNeighbour();
-        }
-        
-        if (TotalStonesOfPlayerInPits == 0){
-            sweepRemainingStonesToKalaha(firstPitOfActivePlayer);
-            System.out.println("THE GAME IS OVER");
-        }   */
-      
         BoardMember firstPitOfActivePlayer = findFirstPitOfActivePlayer();
         int TotalStonesOfPlayerInPits = firstPitOfActivePlayer.howManyStonesOnPlayerSide();
         
@@ -189,8 +170,6 @@ public abstract class BoardMember {
     private String getPlayerName (BoardMember whoseOwnerToCheck) {
         return whoseOwnerToCheck.getOwner().getPlayerName();
     }
-     void pickAndPlayPit(){
+     void pickThisBoardMember(){
     }
-     
-
 }
