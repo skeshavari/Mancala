@@ -168,15 +168,15 @@ public abstract class BoardMember {
         int AllStonesInactivePlayer = kalahaInactivePlayer.getTotalStones();
         BoardMember kalahaActivePlayer = kalahaInactivePlayer.getActiveKalaha();
         int allStonesActivePlayer = kalahaActivePlayer.getTotalStones();
-        String playerName;
         
         System.out.println(); //for new line 
         
         String weHaveAWinner = null;
+        
         if (AllStonesInactivePlayer > allStonesActivePlayer) {
-            playerName = getPlayerName(kalahaInactivePlayer);
+            weHaveAWinner = getPlayerName(kalahaInactivePlayer);
         } else if (AllStonesInactivePlayer < allStonesActivePlayer){
-             playerName = getPlayerName(kalahaActivePlayer);
+             weHaveAWinner = getPlayerName(kalahaActivePlayer);
         }
         
         if (weHaveAWinner != null){
