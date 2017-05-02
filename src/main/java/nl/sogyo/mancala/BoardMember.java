@@ -47,7 +47,6 @@ public abstract class BoardMember {
     }
     
     public BoardMember getActiveKalaha(){
-        //BoardMember searchingForKalaha = getNeighbour();
         if (getMyClass(this).equals("Kalaha") == true && ownerIsActive()){
             return this;
         }
@@ -64,27 +63,10 @@ public abstract class BoardMember {
     }
     
     public BoardMember findFirstPitOfActivePlayer(){
-        //String BoardMemberType = getMyClass(this);
-
         if (ownerIsNOTActive(this) && getMyClass(this).equals("Kalaha")) {
             return this.getNeighbour();
         }
         return getNeighbour().findFirstPitOfActivePlayer();
-
-        /* ////// This is the working code ///////
-        BoardMember searchFromBoardMember = this;
-        boolean inactiveKalahaReached = false;
-        String BoardMemberType;
-        while (inactiveKalahaReached == false){
-            BoardMemberType = getMyClass(searchFromBoardMember);
-            
-            if (BoardMemberType.equalsIgnoreCase("Kalaha") == true && ownerIsNOTActive(searchFromBoardMember)) {
-                inactiveKalahaReached = true;
-            } else {
-                 searchFromBoardMember = searchFromBoardMember.getNeighbour();
-            }
-        } 
-        return searchFromBoardMember.getNeighbour(); */
     }
          
     private boolean ownerIsNOTActive(BoardMember toCheckForActiveState){
@@ -103,9 +85,9 @@ public abstract class BoardMember {
          
     void endTurnSequence(){
         if (wasEmpty() && ownerIsActive()) {
-            BoardMember foundTheActiveKalaha = getActiveKalaha();
-            captureMe(foundTheActiveKalaha);
-            getOpposingBoardMember().captureMe(foundTheActiveKalaha);
+            BoardMember findTheActiveKalaha = getActiveKalaha();
+            captureMe(findTheActiveKalaha);
+            getOpposingBoardMember().captureMe(findTheActiveKalaha);
         }
         
         owner.switchIsActiveTurn();
