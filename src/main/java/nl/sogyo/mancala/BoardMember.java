@@ -46,12 +46,6 @@ public abstract class BoardMember {
         return myNeighboursOpposingBoardMember.getNeighbour();
     }
     
-    public BoardMember getActiveKalaha(){
-        if (getMyClass(this).equals("Kalaha") == true && ownerIsActive()){
-            return this;
-        }
-        return neighbour.getActiveKalaha();
-    }
      
     private String getMyClass(BoardMember toCheckForType){
         return toCheckForType.getClass().getSimpleName();
@@ -94,6 +88,13 @@ public abstract class BoardMember {
         owner.getOpponent().switchIsActiveTurn();
         accessGame();
     }
+
+    public BoardMember getActiveKalaha(){
+        if (getMyClass(this).equals("Kalaha") == true && ownerIsActive()){
+            return this;
+        }
+        return neighbour.getActiveKalaha();
+    }
     
     private boolean wasEmpty(){
         if (totalStones == 1) {
@@ -117,52 +118,75 @@ public abstract class BoardMember {
     }
     
     void accessGame(){
-        int TotalStonesOfPlayerInPits = 0;
-        BoardMember firstPitUntilKalahaOfActivePlayer = findFirstPitOfActivePlayer();
-        while (getMyClass(firstPitUntilKalahaOfActivePlayer).equalsIgnoreCase("Kalaha") == false){
-            TotalStonesOfPlayerInPits += firstPitUntilKalahaOfActivePlayer.getTotalStones();
-            firstPitUntilKalahaOfActivePlayer = firstPitUntilKalahaOfActivePlayer.getNeighbour();
+      /*  int TotalStonesOfPlayerInPits = 0;
+        BoardMember firstPitOfActivePlayer = findFirstPitOfActivePlayer();
+        while (getMyClass(firstPitOfActivePlayer).equals("Kalaha") == false){
+            TotalStonesOfPlayerInPits += firstPitOfActivePlayer.getTotalStones();
+            firstPitOfActivePlayer = firstPitOfActivePlayer.getNeighbour();
         }
         
         if (TotalStonesOfPlayerInPits == 0){
-            sweepRemainingStonesToKalaha(firstPitUntilKalahaOfActivePlayer);
+            sweepRemainingStonesToKalaha(firstPitOfActivePlayer);
+            System.out.println("THE GAME IS OVER");
+        }   */
+      
+        BoardMember firstPitOfActivePlayer = findFirstPitOfActivePlayer();
+        int TotalStonesOfPlayerInPits = firstPitOfActivePlayer.howManyStonesOnPlayerSide();
+        
+        if (TotalStonesOfPlayerInPits == 0){
+            sweepRemainingStonesToKalaha(firstPitOfActivePlayer.getActiveKalaha());
             System.out.println("THE GAME IS OVER");
         }
     }
     
-    void sweepRemainingStonesToKalaha(BoardMember theActivePlayersKalaha){
-        int TotalStonesLeft = 0;
-        BoardMember loopUntilTheInactiveKalaha = theActivePlayersKalaha.getNeighbour();
-        while (getMyClass(loopUntilTheInactiveKalaha).equalsIgnoreCase("Kalaha") == false){
-            TotalStonesLeft += loopUntilTheInactiveKalaha.getTotalStones();
-            loopUntilTheInactiveKalaha.emptyStones();
-            loopUntilTheInactiveKalaha = loopUntilTheInactiveKalaha.getNeighbour();
-        }
-        
-        loopUntilTheInactiveKalaha.receiveStones(TotalStonesLeft);
-        decideVictoriousPlayer(loopUntilTheInactiveKalaha);
+    public int howManyStonesOnPlayerSide(){
+        int thisManySofar = getTotalStones() + neighbour.howManyStonesOnPlayerSide();
+        return thisManySofar;
     }
     
-    void decideVictoriousPlayer(BoardMember kalahaOfInactivePlayer){
-        int totalStonesOfInactivePlayer = kalahaOfInactivePlayer.getTotalStones();
-        BoardMember findingActivePlayersKalaha = kalahaOfInactivePlayer.getActiveKalaha();
-        int totalStonesOfActivePlayer = findingActivePlayersKalaha.getTotalStones();
+    public BoardMember getNextKalaha(){
+        return neighbour.getNextKalaha();
+    }
+    
+    void sweepRemainingStonesToKalaha(BoardMember theActivePlayersKalaha){
+        
+        BoardMember firstPitOfInactivePlayer = theActivePlayersKalaha.getNeighbour();
+        int TotalStonesLeft = firstPitOfInactivePlayer.howManyStonesOnPlayerSide();
+        firstPitOfInactivePlayer.emptyAllPits();
+
+        BoardMember theInactivePlayersKalaha = firstPitOfInactivePlayer.getNextKalaha();
+        theInactivePlayersKalaha.receiveStones(TotalStonesLeft);
+        decideVictoriousPlayer(theInactivePlayersKalaha);
+    }
+    
+    void emptyAllPits(){
+        emptyStones();
+        neighbour.emptyAllPits();
+    }
+    
+    void decideVictoriousPlayer(BoardMember kalahaInactivePlayer){
+        int AllStonesInactivePlayer = kalahaInactivePlayer.getTotalStones();
+        BoardMember kalahaActivePlayer = kalahaInactivePlayer.getActiveKalaha();
+        int allStonesActivePlayer = kalahaActivePlayer.getTotalStones();
         String playerName;
         
         System.out.println(); //for new line 
         
-        if (totalStonesOfInactivePlayer > totalStonesOfActivePlayer) {
-            playerName = getThePlayerName(kalahaOfInactivePlayer);
-            System.out.println(playerName + " has won the game with " + totalStonesOfInactivePlayer + " stones.");
-        } else if (totalStonesOfInactivePlayer < totalStonesOfActivePlayer){
-             playerName = getThePlayerName(findingActivePlayersKalaha);
-            System.out.println(playerName + " has won the game with " + totalStonesOfActivePlayer + " stones.");
-        } else {
+        String weHaveAWinner = null;
+        if (AllStonesInactivePlayer > allStonesActivePlayer) {
+            playerName = getPlayerName(kalahaInactivePlayer);
+        } else if (AllStonesInactivePlayer < allStonesActivePlayer){
+             playerName = getPlayerName(kalahaActivePlayer);
+        }
+        
+        if (weHaveAWinner != null){
+             System.out.println(weHaveAWinner + " has won the game.");
+        }else {
             System.out.println("We have a draw! No winners or losers..");
         }
     }
     
-    private String getThePlayerName (BoardMember whoseOwnerToCheck) {
+    private String getPlayerName (BoardMember whoseOwnerToCheck) {
         return whoseOwnerToCheck.getOwner().getPlayerName();
     }
      void pickAndPlayPit(){

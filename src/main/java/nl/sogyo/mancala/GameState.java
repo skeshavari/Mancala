@@ -7,38 +7,30 @@ import java.io.*;
 
 public class GameState {
     JFrame frame;
-    JPanel panel;
-    JTextArea jTextArea = new JTextArea(5,20);
+    JPanel gamePanel;
     JButton [] buttons = new JButton[14];
     int frameWidth = 450;
     int frameHeight = 650;
     Pit StartGameBoard = new Pit();
     
     void createGUIFrame(){
-        
-        CapturePane capturePane = new CapturePane();
-        System.setOut(new PrintStream(new StreamCapturer("Game Referee: ", capturePane, System.out)));
-        capturePane.setAutoscrolls(true);
-        
-        
         frame = new JFrame("Mancala");
         frame.setSize(frameWidth,frameHeight);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         
-        BorderLayout layout = new BorderLayout();
-        JPanel background = new JPanel(layout);
         
+        CapturePane capturePane = new CapturePane();
+        System.setOut(new PrintStream(new StreamCapturer("Game Referee: ", capturePane, System.out)));
+        capturePane.setPreferredSize(new Dimension(100,100));
+        
+        JPanel background = new JPanel(new BorderLayout());
         background.setBorder(BorderFactory.createEmptyBorder(20,10,10,10));
         
-        jTextArea.setEditable(false);
-        jTextArea.setLineWrap(true);
-        capturePane.setPreferredSize(new Dimension(0,150));
-        background.add(BorderLayout.SOUTH, capturePane);
-        frame.getContentPane().add(background);
-        
-        panel = new JPanel();
-        background.add(panel);
+        gamePanel = new JPanel();
+        background.add(BorderLayout.CENTER, gamePanel);
 
+        background.add(BorderLayout.SOUTH, capturePane);
+
+        frame.getContentPane().add(background);
         startNewGame();
         frame.setVisible(true);
     }
@@ -48,11 +40,11 @@ public class GameState {
         newGameButton.setBounds(50, 50, 100, 50);
         newGameButton.setLayout(null);
         newGameButton.addActionListener(new NewGameButtonListener());
-        panel.add(newGameButton);
+        gamePanel.add(newGameButton);
     }
     
     void CreateAndUpdateAllbuttons(){
-        panel.removeAll(); 
+        gamePanel.removeAll(); 
         BoardMember loopThroughBoard = StartGameBoard;
         JLabel name;
         int buttonXPosition = 150;
@@ -88,8 +80,8 @@ public class GameState {
             
             name.setBounds(labelXPosition, buttonYPosition, 100, 50);
             name.setLayout(null);
-            panel.add(name);
-            panel.add(buttons[numberOfBoardMembers]);
+            gamePanel.add(name);
+            gamePanel.add(buttons[numberOfBoardMembers]);
             
             loopThroughBoard = loopThroughBoard.getNeighbour();
              numberOfBoardMembers++;
@@ -125,11 +117,7 @@ public class GameState {
         }
 
     }
-    
-    
-    
-    
-    
+
     public class CapturePane extends JPanel implements Consumer {
 
         private JTextArea output;

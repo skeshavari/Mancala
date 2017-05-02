@@ -29,5 +29,19 @@ public class Kalaha extends BoardMember {
     public void captureMe(BoardMember activeKalaha){
     }
     
+    @Override
+    public int howManyStonesOnPlayerSide(){
+        return 0;
+    }
+    
+    @Override
+    public BoardMember getNextKalaha(){
+        return this;
+    }
+    
+    @Override
+    void emptyAllPits(){
+        //getNeighbour().emptyAllPits();
+    }
 
 }

@@ -199,11 +199,11 @@ public class MancalaTest {
     @Test
     public void testIfSweepFunctionClearsAllPits() {
         printAllStones();
-        pit1.subtractStones(4);
-        pit2.subtractStones(4);
-        pit3.subtractStones(4);
-        pit4.subtractStones(4);
-        pit5.subtractStones(4);
+        pit1.emptyStones();
+        pit2.emptyStones();
+        pit3.emptyStones();
+        pit4.emptyStones();
+        pit5.emptyStones();
         pit6.pickAndPlayPit();
         pit8.pickAndPlayPit();
         printAllStones();
@@ -219,11 +219,11 @@ public class MancalaTest {
     @Test
     public void testIfEndGameSequenceIsInitiatedWithStonesInRightKalaha() {
         printAllStones();
-        pit1.subtractStones(4);
-        pit2.subtractStones(4);
-        pit3.subtractStones(4);
-        pit4.subtractStones(4);
-        pit5.subtractStones(4);
+        pit1.emptyStones();
+        pit2.emptyStones();
+        pit3.emptyStones();
+        pit4.emptyStones();
+        pit5.emptyStones();
         pit6.pickAndPlayPit();
         pit8.pickAndPlayPit();
         printAllStones();
@@ -235,17 +235,43 @@ public class MancalaTest {
     @Test
     public void testIfEndGameSequenceIsInitiatedWhenEndingInOwnKalaha() {
         printAllStones();
-        pit1.subtractStones(4);
-        pit2.subtractStones(4);
-        pit3.subtractStones(4);
-        pit4.subtractStones(4);
-        pit5.subtractStones(4);
+        pit1.emptyStones();
+        pit2.emptyStones();
+        pit3.emptyStones();
+        pit4.emptyStones();
+        pit5.emptyStones();
         pit6.subtractStones(3);
         pit6.pickAndPlayPit();
         printAllStones();
         
         Assert.assertEquals(1, kalaha1.getTotalStones());
         Assert.assertEquals(24, kalaha2.getTotalStones());
+        
+    }
+    
+        @Test
+    public void testIfDrawIsInitiatedWhenBothKalahaHaveSameAmountAtEndGame() {
+        printAllStones();
+        pit1.emptyStones();
+        pit2.emptyStones();
+        pit3.emptyStones();
+        pit4.emptyStones();
+        pit6.emptyStones();
+
+        pit8.emptyStones();
+        pit9.emptyStones();
+        pit10.emptyStones();
+        pit11.emptyStones();
+        pit13.emptyStones();
+        
+        pit5.subtractStones(3);
+        pit5.pickAndPlayPit();
+        pit12.subtractStones(3);
+        pit12.pickAndPlayPit();
+        printAllStones();
+        
+        Assert.assertEquals(1, kalaha1.getTotalStones());
+        Assert.assertEquals(1, kalaha2.getTotalStones());
         
     }
     
