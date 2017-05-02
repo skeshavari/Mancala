@@ -29,4 +29,5 @@ public class Kalaha extends BoardMember {
     public void captureMe(BoardMember activeKalaha){
     }
     
+
 }

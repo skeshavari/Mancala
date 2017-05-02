@@ -47,18 +47,31 @@ public abstract class BoardMember {
     }
     
     public BoardMember getActiveKalaha(){
-        BoardMember searchingForKalaha = getNeighbour();
-        while (getMyClass(searchingForKalaha).equalsIgnoreCase("Kalaha") == false){
-            searchingForKalaha = searchingForKalaha.getNeighbour();
+        //BoardMember searchingForKalaha = getNeighbour();
+        if (getMyClass(this).equals("Kalaha") == true && ownerIsActive()){
+            return this;
         }
-        return searchingForKalaha;
+        return neighbour.getActiveKalaha();
     }
      
     private String getMyClass(BoardMember toCheckForType){
         return toCheckForType.getClass().getSimpleName();
-    }      
+    }
+    
+        
+    public boolean ownerIsActive(){
+        return getOwner().getIsActiveTurn() == true;
+    }
     
     public BoardMember findFirstPitOfActivePlayer(){
+        //String BoardMemberType = getMyClass(this);
+
+        if (ownerIsNOTActive(this) && getMyClass(this).equals("Kalaha")) {
+            return this.getNeighbour();
+        }
+        return getNeighbour().findFirstPitOfActivePlayer();
+
+        /* ////// This is the working code ///////
         BoardMember searchFromBoardMember = this;
         boolean inactiveKalahaReached = false;
         String BoardMemberType;
@@ -70,15 +83,12 @@ public abstract class BoardMember {
             } else {
                  searchFromBoardMember = searchFromBoardMember.getNeighbour();
             }
-        }
-        return searchFromBoardMember.getNeighbour();
+        } 
+        return searchFromBoardMember.getNeighbour(); */
     }
          
     private boolean ownerIsNOTActive(BoardMember toCheckForActiveState){
-        if (toCheckForActiveState.getOwner().getIsActiveTurn() == false) {
-            return true;
-        }
-        return false;
+        return toCheckForActiveState.ownerIsActive() == false;
     }
 
     void takeAndPassStones(int stonesToPassOn) {
@@ -109,13 +119,7 @@ public abstract class BoardMember {
         }
         return false;
     }
-    
-    public boolean ownerIsActive(){
-        if (getOwner().getIsActiveTurn() == true) {
-            return true;
-        }
-        return false;
-    }
+
     
     void captureMe(BoardMember activeKalaha){
         int stonesToGiveAway = totalStones;
