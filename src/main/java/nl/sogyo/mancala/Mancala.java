@@ -6,6 +6,7 @@ public class Mancala {
         System.out.println("This is the start of a Mancala Game!");
         GameState newGame = new GameState();
         newGame.createGUIFrame();
+        
     }
     
 }

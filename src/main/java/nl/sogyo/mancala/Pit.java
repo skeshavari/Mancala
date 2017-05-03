@@ -4,16 +4,21 @@ package nl.sogyo.mancala;
 public class Pit extends BoardMember {
     
     public Pit(){
-        super();
+        super(6);
+        
     }
     
-    public Pit(BoardMember firstPit, int totalInstancesCreated, Contestant firstPlayer){
-        super(firstPit, totalInstancesCreated, firstPlayer);
+    public Pit(int howManyPits){
+        super(howManyPits);
+    }
+    
+    public Pit(BoardMember firstPit, int totalInstancesCreated, Contestant firstPlayer, int totalPitsPerPlayer){
+        super(firstPit, totalInstancesCreated, firstPlayer, totalPitsPerPlayer);
     }
     
     @Override
     void pickThisBoardMember(){
-        if (super.ownerIsActive() == true){
+        if (ownerIsActive() == true){
             playThisPit();
         } else {
             System.out.println("You cannot choose the opponents side..");
@@ -21,7 +26,7 @@ public class Pit extends BoardMember {
     }
     
     void playThisPit(){
-        if (super.getTotalStones() == 0) {
+        if (getTotalStones() == 0) {
             System.out.println("There are no stones in here. Pick again..");
         } else {
             int stonesToPassOn=getTotalStones();
@@ -37,5 +42,10 @@ public class Pit extends BoardMember {
         
     void subtractStones(int stonesReceived){
         super.receiveStones(-stonesReceived);
+    }
+    
+    @Override
+      public void setTotalPitsPerPlayer(int lastResort){
+        TotalPitsPerPlayer = lastResort;
     }
 }

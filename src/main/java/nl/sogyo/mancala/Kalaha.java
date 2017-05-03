@@ -3,8 +3,8 @@ package nl.sogyo.mancala;
 
 public class Kalaha extends BoardMember {
        
-    public Kalaha (BoardMember firstPit, int totalInstancesCreated, Contestant firstPlayer){
-        super(firstPit, totalInstancesCreated, firstPlayer);
+    public Kalaha (BoardMember firstPit, int totalInstancesCreated, Contestant firstPlayer, int TotalPitsPerPlayer){
+        super(firstPit, totalInstancesCreated, firstPlayer, TotalPitsPerPlayer);
         emptyStones();
     }
     
@@ -41,7 +41,6 @@ public class Kalaha extends BoardMember {
     
     @Override
     void emptyAllPits(){
-        //getNeighbour().emptyAllPits();
     }
 
 }

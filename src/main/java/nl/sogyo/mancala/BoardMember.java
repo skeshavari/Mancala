@@ -1,32 +1,40 @@
 package nl.sogyo.mancala;
 
 public abstract class BoardMember {
-    private int TotalPitsPerPlayer = 6;
+    int TotalPitsPerPlayer;
     private int totalStones = 4;
     private BoardMember neighbour;
     private Contestant owner;
-    
-    public BoardMember(){
+
+       
+    public BoardMember(int howManyPitsPerPlayer){
         BoardMember firstPit = this;
+        TotalPitsPerPlayer = howManyPitsPerPlayer;
+        
         Contestant firstPlayer = new Contestant();
         owner = firstPlayer;
-        neighbour = new Pit(firstPit, 2, firstPlayer);
+        neighbour = new Pit(firstPit, 2, firstPlayer, TotalPitsPerPlayer);
+        
     }
 
-    public BoardMember(BoardMember firstPit, int instancesOfPitsCreated, Contestant firstPlayer){
+    public BoardMember(BoardMember firstPit, int instancesOfPitsCreated, Contestant firstPlayer, int numberPitsPerPlayer){
         owner = firstPlayer;
-        
+        TotalPitsPerPlayer = numberPitsPerPlayer;
         if (instancesOfPitsCreated == TotalPitsPerPlayer  || instancesOfPitsCreated == (TotalPitsPerPlayer*2)+1 ) {
-            neighbour = new Kalaha(firstPit, instancesOfPitsCreated+1, firstPlayer);
+            neighbour = new Kalaha(firstPit, instancesOfPitsCreated+1, firstPlayer, TotalPitsPerPlayer);
         } else if (instancesOfPitsCreated == TotalPitsPerPlayer+1 ) {
             //First Kalaha created. Creates new pits with opponent as their owner
-            neighbour = new Pit(firstPit, instancesOfPitsCreated+1, firstPlayer.getOpponent());
+            neighbour = new Pit(firstPit, instancesOfPitsCreated+1, firstPlayer.getOpponent(), TotalPitsPerPlayer);
         } else if (instancesOfPitsCreated == (TotalPitsPerPlayer+1)*2 ) {
              //Reached Second Kalaha, stop chain and link kalaha to first pit
             neighbour = firstPit;
         } else {
-            neighbour = new Pit(firstPit, instancesOfPitsCreated+1, firstPlayer);
+            neighbour = new Pit(firstPit, instancesOfPitsCreated+1, firstPlayer, TotalPitsPerPlayer);
         }
+    }
+    
+    public void setTotalPitsPerPlayer(int lastResort){
+        TotalPitsPerPlayer = lastResort;
     }
     
     public int getTotalStones(){

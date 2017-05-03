@@ -8,10 +8,14 @@ import java.io.*;
 public class GameState {
     JFrame frame;
     JPanel gamePanel;
-    JButton [] buttons = new JButton[14];
+
+    Pit StartGameBoard = new Pit(6);
+    int totalNumberBoardMembers = getTotalNumberBoardMembers();
+    int totalPitsBeforeKalaha1 = (totalNumberBoardMembers/2)-1;
+    int totalPitsBeforeKalaha2 = (totalNumberBoardMembers)-1;
+    JButton [] buttons = new JButton[totalNumberBoardMembers];
     int frameWidth = 450;
-    int frameHeight = 650;
-    Pit StartGameBoard = new Pit();
+    int frameHeight = 250 + (25 * totalNumberBoardMembers);  
     
     void createGUIFrame(){
         frame = new JFrame("Mancala");
@@ -29,10 +33,11 @@ public class GameState {
         background.add(BorderLayout.CENTER, gamePanel);
 
         background.add(BorderLayout.SOUTH, capturePane);
-
         frame.getContentPane().add(background);
+
         startNewGame();
         frame.setVisible(true);
+        
     }
     
     void startNewGame(){
@@ -43,6 +48,8 @@ public class GameState {
         gamePanel.add(newGameButton);
     }
     
+
+    
     void CreateAndUpdateAllbuttons(){
         gamePanel.removeAll(); 
         BoardMember loopThroughBoard = StartGameBoard;
@@ -51,24 +58,20 @@ public class GameState {
         int buttonYPosition = 50;
         int labelXPosition = 50;
         int numberOfBoardMembers = 0;
-
-        while (numberOfBoardMembers < 14){
+        
+        while (numberOfBoardMembers < totalNumberBoardMembers){
             buttons[numberOfBoardMembers] = new JButton(Integer.toString(loopThroughBoard.getTotalStones()));
             buttons[numberOfBoardMembers].putClientProperty("boardMember", loopThroughBoard);
             buttons[numberOfBoardMembers].addActionListener(new ButtonClickListener());
             buttons[numberOfBoardMembers].setBounds(buttonXPosition, buttonYPosition, 50, 50);
             buttons[numberOfBoardMembers].setLayout(null);
             
-            switch (numberOfBoardMembers) {
-                case 6:
-                    name = new JLabel(loopThroughBoard.getClass().getSimpleName() + " Player 1");
-                    break;
-                case 13:
-                    name = new JLabel(loopThroughBoard.getClass().getSimpleName() + " Player 2");
-                    break;
-                default:
-                    name = new JLabel(loopThroughBoard.getClass().getSimpleName() + " " + (numberOfBoardMembers+1));
-                    break;
+            if (numberOfBoardMembers == totalPitsBeforeKalaha1){
+                name = new JLabel(loopThroughBoard.getClass().getSimpleName() + " Player 1");
+            } else if (numberOfBoardMembers == totalPitsBeforeKalaha2){
+                name = new JLabel(loopThroughBoard.getClass().getSimpleName() + " Player 2");
+            } else {
+                name = new JLabel(loopThroughBoard.getClass().getSimpleName() + " " + (numberOfBoardMembers+1));
             }
             
             //reCollor active Players buttons
@@ -84,20 +87,31 @@ public class GameState {
             gamePanel.add(buttons[numberOfBoardMembers]);
             
             loopThroughBoard = loopThroughBoard.getNeighbour();
-             numberOfBoardMembers++;
-            if (numberOfBoardMembers == 7){
-                buttonXPosition += 50;                   
-                buttonYPosition -= 100;
+            numberOfBoardMembers++;
+            if (numberOfBoardMembers == (totalNumberBoardMembers/2)){
+                buttonXPosition += 52;                   
+                buttonYPosition -= 104;
                 labelXPosition = buttonXPosition + 75;
             }
-            if (numberOfBoardMembers > 7){
-                buttonYPosition -= 50;
+            if (numberOfBoardMembers > (totalNumberBoardMembers/2)){
+                buttonYPosition -= 52;
             } else {
-                buttonYPosition +=50;
+                buttonYPosition +=52;
             }
         }
+        frame.repaint();
     }
 
+    private int getTotalNumberBoardMembers(){
+        int amountOfPits = 1;
+        BoardMember checking = StartGameBoard.getNeighbour();
+        while (StartGameBoard.equals(checking) == false){
+            amountOfPits++;
+            checking = checking.getNeighbour();
+        }
+        return amountOfPits;
+    }
+    
     class ButtonClickListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -108,7 +122,7 @@ public class GameState {
         frame.repaint();
         }
     }
-    
+        
     class NewGameButtonListener implements ActionListener{
 
         public void actionPerformed(ActionEvent a) {
