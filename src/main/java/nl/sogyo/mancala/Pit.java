@@ -39,13 +39,9 @@ public class Pit extends BoardMember {
     @Override
     void receiveStones(int stonesReceived){
     }
-        
-    void subtractStones(int stonesReceived){
+
+    void subtractStones(int stonesReceived){ //used for testing only
         super.receiveStones(-stonesReceived);
     }
     
-    @Override
-      public void setTotalPitsPerPlayer(int lastResort){
-        TotalPitsPerPlayer = lastResort;
-    }
 }

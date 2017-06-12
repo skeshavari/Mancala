@@ -5,7 +5,6 @@ public abstract class BoardMember {
     private int totalStones = 4;
     private BoardMember neighbour;
     private Contestant owner;
-
        
     public BoardMember(int howManyPitsPerPlayer){
         BoardMember firstPit = this;
@@ -32,14 +31,11 @@ public abstract class BoardMember {
             neighbour = new Pit(firstPit, instancesOfPitsCreated+1, firstPlayer, TotalPitsPerPlayer);
         }
     }
-    
-    public void setTotalPitsPerPlayer(int lastResort){
-        TotalPitsPerPlayer = lastResort;
-    }
-    
+
     public int getTotalStones(){
         return totalStones;
     }
+    
     public Contestant getOwner(){
         return owner;
     }     
@@ -53,32 +49,31 @@ public abstract class BoardMember {
         return myNeighboursOpposingBoardMember.getNeighbour();
     }
     
-    private String getMyClass(BoardMember toCheckForType){
-        return toCheckForType.getClass().getSimpleName();
-    }
-        
+
     public boolean ownerIsActive(){
         return getOwner().getIsActiveTurn() == true;
     }
     
     public BoardMember findFirstPitOfActivePlayer(){
-        if (ownerIsNOTActive(this) && getMyClass(this).equals("Kalaha")) {
+        if (ownerIsNOTActive(this) && isKalaha()) {
             return this.getNeighbour();
         }
         return getNeighbour().findFirstPitOfActivePlayer();
     }
-         
+
+    private boolean isKalaha(){
+        return this.getClass().getSimpleName().equals("Kalaha");
+    }
     private boolean ownerIsNOTActive(BoardMember toCheckForActiveState){
         return toCheckForActiveState.ownerIsActive() == false;
     }
 
     void takeAndPassStones(int stonesToPassOn) {
         totalStones++;
-        stonesToPassOn--;
-        if (stonesToPassOn == 0) {
+        if (stonesToPassOn == 1) {
            endTurnSequence();
         } else {
-            neighbour.takeAndPassStones(stonesToPassOn);
+            neighbour.takeAndPassStones(stonesToPassOn - 1);
         }
     }
          
@@ -95,7 +90,7 @@ public abstract class BoardMember {
     }
 
     public BoardMember getActiveKalaha(){
-        if (getMyClass(this).equals("Kalaha") == true && ownerIsActive()){
+        if (isKalaha() && ownerIsActive()){
             return this;
         }
         return neighbour.getActiveKalaha();
@@ -114,6 +109,7 @@ public abstract class BoardMember {
     void receiveStones(int stonesReceived){
         totalStones += stonesReceived;
     }        
+    
     void emptyStones(){
         totalStones = 0;
     }
@@ -178,6 +174,7 @@ public abstract class BoardMember {
     private String getPlayerName (BoardMember whoseOwnerToCheck) {
         return whoseOwnerToCheck.getOwner().getPlayerName();
     }
-     void pickThisBoardMember(){
+    
+    void pickThisBoardMember(){
     }
 }
